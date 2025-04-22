@@ -1,42 +1,51 @@
 package org.ualhmis.torneos;
 import static org.junit.jupiter.api.Assertions.*;
-import org.junit.jupiter.api.Test;
 import java.time.LocalDate;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 // Registro de partidos y validación de resultados
-
-
 class TorneoTest {
 
-    @Test
-    void testRegistrarEquipoCorrectamente() {
-        Torneo torneo = new Torneo("Liga Juvenil", "Fútbol", "Juvenil", "Masculino", "Liga");
+	@ParameterizedTest
+	@CsvSource({
+		"Liga Juvenil, Fútbol, Juvenil, Masculino, Liga, Tigres, Juvenil, Masculino, true",
+		"Liga Juvenil, Fútbol, Juvenil, Masculino, Liga, Tigres, Cadete, Masculino, false",
+		"Liga Juvenil, Fútbol, Juvenil, Masculino, Liga, Tigres, Juvenil, Femenino, false"
+	})
+	void testRegistrarEquipoParametrizado(String torneoNombre, String deporte, String categoria, String modalidad, String tipo,
+										  String equipoNombre, String equipoCategoria, String equipoModalidad, boolean shouldRegister) {
+		Torneo torneo = new Torneo(torneoNombre, deporte, categoria, modalidad, tipo);
 
-        Entrenador entrenador = new Entrenador("Carlos", "Masculino", LocalDate.of(1980, 3, 10));
-        Equipo equipo = new Equipo("Tigres", "Juvenil", "Masculino", entrenador);
+		Entrenador entrenador = new Entrenador("Carlos", "Masculino", LocalDate.of(1980, 3, 10));
+		Equipo equipo = new Equipo(equipoNombre, equipoCategoria, equipoModalidad, entrenador);
 
-        torneo.registrarEquipo(equipo);
+		if (shouldRegister) {
+			torneo.registrarEquipo(equipo);
+			assertEquals(1, torneo.getEquipos().size());
+		} else {
+			assertThrows(IllegalArgumentException.class, () -> torneo.registrarEquipo(equipo));
+		}
+	}
 
-        assertEquals(1, torneo.getEquipos().size());
-    }
+	@ParameterizedTest
+	@CsvSource({
+		"Liga Juvenil, Fútbol, Juvenil, Masculino, Liga",
+		"Copa Senior, Baloncesto, Senior, Femenino, Copa"
+	})
+	void testGettersAndSettersParametrizado(String nombre, String deporte, String categoria, String modalidad, String tipo) {
+		Torneo torneo = new Torneo("Temp", "Temp", "Temp", "Temp", "Temp");
 
-    @Test
-    void testNoRegistrarEquipoDeDiferenteCategoria() {
-        Torneo torneo = new Torneo("Liga Juvenil", "Fútbol", "Juvenil", "Masculino", "Liga");
+		torneo.setNombre(nombre);
+		torneo.setDeporte(deporte);
+		torneo.setCategoria(categoria);
+		torneo.setModalidad(modalidad);
+		torneo.setTipo(tipo);
 
-        Entrenador entrenador = new Entrenador("Carlos", "Masculino", LocalDate.of(1980, 3, 10));
-        Equipo equipo = new Equipo("Tigres", "Cadete", "Masculino", entrenador);
-
-        assertThrows(IllegalArgumentException.class, () -> torneo.registrarEquipo(equipo));
-    }
-
-    @Test
-    void testNoRegistrarEquipoDeDiferenteModalidad() {
-        Torneo torneo = new Torneo("Liga Juvenil", "Fútbol", "Juvenil", "Masculino", "Liga");
-
-        Entrenador entrenador = new Entrenador("Carlos", "Masculino", LocalDate.of(1980, 3, 10));
-        Equipo equipo = new Equipo("Leonas", "Juvenil", "Femenino", entrenador);
-
-        assertThrows(IllegalArgumentException.class, () -> torneo.registrarEquipo(equipo));
-    }
+		assertEquals(nombre, torneo.getNombre());
+		assertEquals(deporte, torneo.getDeporte());
+		assertEquals(categoria, torneo.getCategoria());
+		assertEquals(modalidad, torneo.getModalidad());
+		assertEquals(tipo, torneo.getTipo());
+	}
 }

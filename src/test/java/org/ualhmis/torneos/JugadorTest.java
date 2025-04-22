@@ -12,13 +12,13 @@ class JugadorTest {
         Jugador jugador1 = new Jugador("Carlos", "Masculino", LocalDate.of(2015, 5, 10));
         assertEquals("Infantil", jugador1.getCategoria());
 
-        Jugador jugador2 = new Jugador("Luis", "Masculino", LocalDate.of(2010, 3, 15));
+        Jugador jugador2 = new Jugador("Luis", "Masculino", LocalDate.of(2011, 3, 15));
         assertEquals("Cadete", jugador2.getCategoria());
 
-        Jugador jugador3 = new Jugador("Ana", "Femenino", LocalDate.of(2005, 8, 22));
+        Jugador jugador3 = new Jugador("Ana", "Femenino", LocalDate.of(2008, 8, 22));
         assertEquals("Juvenil", jugador3.getCategoria());
 
-        Jugador jugador4 = new Jugador("Pedro", "Masculino", LocalDate.of(2002, 1, 30));
+        Jugador jugador4 = new Jugador("Pedro", "Masculino", LocalDate.of(2005, 1, 30));
         assertEquals("Junior", jugador4.getCategoria());
 
         Jugador jugador5 = new Jugador("Marta", "Femenino", LocalDate.of(1998, 6, 5));

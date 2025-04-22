@@ -10,9 +10,9 @@ class EquipoTest {
     @Test
     void testAgregarJugadorCorrectamente() {
         Entrenador entrenador = new Entrenador("Carlos", "Masculino", LocalDate.of(1980, 3, 10));
-        Equipo equipo = new Equipo("Tigres", "Juvenil", "Masculino", entrenador);
+        Equipo equipo = new Equipo("Tigres", "Junior", "Masculino", entrenador);
 
-        Jugador jugador = new Jugador("Luis", "Masculino", LocalDate.of(2006, 7, 15)); // Juvenil
+        Jugador jugador = new Jugador("Luis Pepe", "Masculino", LocalDate.of(2006, 7, 15)); // Junior
         equipo.agregarJugador(jugador);
 
         assertEquals(1, equipo.getJugadores().size());

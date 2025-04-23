@@ -1,5 +1,6 @@
 package org.ualhmis.torneos;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,15 +11,28 @@ class Torneo {
     private String modalidad;
     private List<Equipo> equipos;
     private String tipo;
+	private Sede sede; 
 
-    public Torneo(String nombre, String deporte, String categoria, String modalidad, String tipo) {
-    	setNombre(nombre);
+	public Torneo(String nombre, String deporte, String categoria, String modalidad, String tipo, Sede sede) {
+        setNombre(nombre);
         this.deporte = deporte;
         this.categoria = categoria;
         this.modalidad = modalidad;
         this.tipo = tipo;
+        setSede(sede); 
         this.equipos = new ArrayList<>();
     }
+
+	public void setSede(Sede sede) {
+        if (sede == null) {
+            throw new IllegalArgumentException("El torneo debe estar asociado a una sede específica");
+        }
+        this.sede = sede;
+    }
+
+	public Sede getSede() {
+		return sede;
+	}
 
     public void registrarEquipo(Equipo equipo) {
         if (equipo == null) {
@@ -33,6 +47,22 @@ class Torneo {
             throw new IllegalArgumentException("El equipo no puede inscribirse dos veces en un torneo");
         }
     }
+
+	public void asignarPartidoAInstalacion(Partido partido, Instalacion instalacion, LocalTime inicio, LocalTime fin) {
+    if (partido == null) {
+        throw new IllegalArgumentException("El partido no puede ser null");
+    }
+    if (instalacion == null) {
+        throw new IllegalArgumentException("La instalación no puede ser null");
+    }
+    if (!sede.getInstalaciones().contains(instalacion)) {
+        throw new IllegalArgumentException("La instalación no pertenece a la sede del torneo");
+    }
+    if (!instalacion.esAdecuadaPara(deporte)) {
+        throw new IllegalArgumentException("La instalación no es adecuada para el deporte del torneo: " + deporte);
+    }
+    instalacion.asignarPartido(partido, inicio, fin);
+}
 
 	public String getNombre() {
 		return nombre;

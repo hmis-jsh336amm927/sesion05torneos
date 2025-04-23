@@ -12,7 +12,7 @@ class Torneo {
     private String tipo;
 
     public Torneo(String nombre, String deporte, String categoria, String modalidad, String tipo) {
-        this.nombre = nombre;
+    	setNombre(nombre);
         this.deporte = deporte;
         this.categoria = categoria;
         this.modalidad = modalidad;
@@ -21,11 +21,16 @@ class Torneo {
     }
 
     public void registrarEquipo(Equipo equipo) {
+        if (equipo == null) {
+            throw new IllegalArgumentException("El equipo no puede ser null");
+        }
         if (!equipo.getCategoria().equals(this.categoria) || !equipo.getModalidad().equals(this.modalidad)) {
             throw new IllegalArgumentException("El equipo no cumple con la categoría y modalidad del torneo");
         }
         if (!equipos.contains(equipo)) {
             equipos.add(equipo);
+        }else {
+            throw new IllegalArgumentException("El equipo no puede inscribirse dos veces en un torneo");
         }
     }
 
@@ -34,6 +39,9 @@ class Torneo {
 	}
 
 	public void setNombre(String nombre) {
+	     if (nombre == null || nombre.trim().isEmpty()) {
+	            throw new IllegalArgumentException("El nombre del torneo no puede ser null");
+	        }
 		this.nombre = nombre;
 	}
 

@@ -1,6 +1,9 @@
 package org.ualhmis.torneos;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
+
 import java.time.LocalDate;
 
 // Restricciones en los equipos (jugadores de la misma categoría y modalidad)
@@ -25,10 +28,23 @@ class JugadorTest {
         assertEquals("Absoluta", jugador5.getCategoria());
     }
 
-    @Test
-    void testCreacionJugadorInvalido() {
-        assertThrows(IllegalArgumentException.class, () -> new Jugador("", "Masculino", LocalDate.of(2010, 1, 1)));
-        assertThrows(IllegalArgumentException.class, () -> new Jugador("Juan", "", LocalDate.of(2010, 1, 1)));
-        assertThrows(IllegalArgumentException.class, () -> new Jugador("Juan", "Masculino", null));
+    @ParameterizedTest
+    @CsvSource({
+        "'', Masculino, 2010-01-01, El nombre no puede estar vacío",
+        "null, Masculino, 2010-01-01, El nombre no puede estar vacío",
+        "Juan, '', 2010-01-01, El género no puede estar vacío",
+        "Juan, null, 2010-01-01, El género no puede estar vacío",
+        "Juan, Masculino, null, La fecha de nacimiento no puede ser nula",
+        "Juan, '   ', 2010-01-01, El género no puede estar vacío"
+    })
+    void testCreacionJugadorInvalido(String nombre, String genero, String fechaNacimiento, String mensajeEsperado) {
+        LocalDate fecha = "null".equals(fechaNacimiento) ? null : LocalDate.parse(fechaNacimiento);
+
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, 
+            () -> new Jugador("null".equals(nombre) ? null : nombre, 
+                              "null".equals(genero) ? null : genero, 
+                              fecha));
+
+        assertEquals(mensajeEsperado, exception.getMessage(), "El mensaje de la excepción no coincide");
     }
 }

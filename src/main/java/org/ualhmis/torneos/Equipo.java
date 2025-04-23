@@ -3,7 +3,7 @@ package org.ualhmis.torneos;
 import java.util.ArrayList;
 import java.util.List;
 
-class Equipo {
+public class Equipo {
     private String nombre;
     private String categoria;
     private String modalidad;

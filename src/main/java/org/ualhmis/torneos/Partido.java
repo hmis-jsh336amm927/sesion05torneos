@@ -8,8 +8,8 @@ public class Partido {
     private Instalacion instalacion;
 
     public Partido(Equipo equipo1, Equipo equipo2) {
-        this.equipo1 = equipo1;
-        this.equipo2 = equipo2;
+        setEquipo1(equipo1);
+        setEquipo2(equipo2);
     }
 
     public void registrarResultado(int golesEquipo1, int golesEquipo2) {
@@ -22,6 +22,9 @@ public class Partido {
 	}
 
 	public void setEquipo1(Equipo equipo1) {
+        if (equipo1 == null) {
+            throw new IllegalArgumentException("El equipo de la sede no puede ser nulo o vacío.");
+        }
 		this.equipo1 = equipo1;
 	}
 
@@ -30,6 +33,9 @@ public class Partido {
 	}
 
 	public void setEquipo2(Equipo equipo2) {
+        if (equipo2 == null) {
+            throw new IllegalArgumentException("El equipo de la sede no puede ser nulo o vacío.");
+        }
 		this.equipo2 = equipo2;
 	}
 

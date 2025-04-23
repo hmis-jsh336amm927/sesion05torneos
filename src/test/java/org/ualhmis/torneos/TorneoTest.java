@@ -87,7 +87,7 @@ public class TorneoTest {
     @ParameterizedTest
     @CsvSource({
         "Liga Juvenil, Fútbol, Juvenil, Masculino, Liga",
-        "Copa Senior, Baloncesto, Senior, Femenino, Copa"
+        "Copa Absoluta, Baloncesto, Absoluta, Femenino, Copa"
     })
     @DisplayName("Getters y setters funcionan correctamente")
     void testGettersAndSetters(String nombre, String deporte, String categoria, String modalidad, String tipo) {

@@ -43,30 +43,30 @@ public class EquipoTest {
 		assertEquals("Femenino", equipo.getModalidad());
 	}
 
-	@Test
-	@DisplayName("Agregar jugador válido lo añade correctamente a la lista")
-	void testAgregarJugadorValido() {
-		Entrenador entrenador = new Entrenador("Juan", "M", LocalDate.of(1990, 1, 1));
-		Equipo equipo = new Equipo("Equipo A", "Junior", "Masculino", entrenador);
+    @Test
+    void testNoAgregarJugadorDeDiferenteCategoria() {
+        Entrenador entrenador = new Entrenador("Carlos", "Masculino", LocalDate.of(1980, 3, 10));
+        Equipo equipo = new Equipo("Tigres", "Juvenil", "Masculino", entrenador);
 
-		Jugador jugador = new Jugador("Carlos", "Masculino", LocalDate.of(2005, 1, 1)); // Categoría Junior
-		equipo.agregarJugador(jugador);
+        Jugador jugador = new Jugador("Luis", "Masculino", LocalDate.of(2015, 5, 10)); // Infantil
 
-		assertEquals(1, equipo.getJugadores().size());
-		assertTrue(equipo.getJugadores().contains(jugador));
-	}
+        equipo.agregarJugador(jugador);
 
-	@Test
-	@DisplayName("Agregar jugador con categoría incorrecta no lo añade")
-	void testAgregarJugadorCategoriaIncorrecta() {
-		Entrenador entrenador = new Entrenador("Juan", "M", LocalDate.of(1990, 1, 1));
-		Equipo equipo = new Equipo("Equipo A", "Junior", "Masculino", entrenador);
+        assertEquals(0, equipo.getJugadores().size()); // No debe agregarse
+    }
 
-		Jugador jugador = new Jugador("Carlos", "Masculino", LocalDate.of(2015, 1, 1)); // Categoría Infantil
-		equipo.agregarJugador(jugador);
+    @Test
+	@DisplayName("Asignar segundo entrenador actualiza correctamente")
+    void testAsignarSegundoEntrenador() {
+        Entrenador entrenador1 = new Entrenador("Carlos", "Masculino", LocalDate.of(1980, 3, 10));
+        Entrenador entrenador2 = new Entrenador("Ana", "Femenino", LocalDate.of(1985, 6, 20));
 
-		assertTrue(equipo.getJugadores().isEmpty());
-	}
+        Equipo equipo = new Equipo("Tigres", "Juvenil", "Masculino", entrenador1);
+        equipo.asignarSegundoEntrenador(entrenador2);
+
+        assertNotNull(equipo.getSegundoEntrenador());
+        assertEquals("Ana", equipo.getSegundoEntrenador().getNombre());
+    }
 
 	@Test
 	@DisplayName("Agregar jugador duplicado no lo añade")
@@ -79,18 +79,6 @@ public class EquipoTest {
 		equipo.agregarJugador(jugador);
 
 		assertEquals(1, equipo.getJugadores().size());
-	}
-
-	@Test
-	@DisplayName("Asignar segundo entrenador actualiza correctamente")
-	void testAsignarSegundoEntrenador() {
-		Entrenador entrenador = new Entrenador("Juan", "M", LocalDate.of(1990, 1, 1));
-		Entrenador segundoEntrenador = new Entrenador("Pedro", "M", LocalDate.of(1985, 5, 15));
-		Equipo equipo = new Equipo("Equipo A", "Junior", "Masculino", entrenador);
-
-		equipo.asignarSegundoEntrenador(segundoEntrenador);
-
-		assertEquals(segundoEntrenador, equipo.getSegundoEntrenador());
 	}
 
 	@Test

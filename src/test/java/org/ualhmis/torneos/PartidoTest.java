@@ -2,6 +2,7 @@ package org.ualhmis.torneos;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.junit.jupiter.api.DisplayName;
@@ -87,15 +88,17 @@ public class PartidoTest {
     @Test
     @DisplayName("Registrar resultado asigna correctamente los goles")
     void testRegistrarResultado() {
-        Equipo local = new Equipo("Equipo A", "Senior", "Masculino", new Entrenador("Juan", "M", java.time.LocalDate.of(1990, 1, 1)));
-        Equipo visitante = new Equipo("Equipo B", "Senior", "Masculino", new Entrenador("Pedro", "M", java.time.LocalDate.of(1990, 1, 1)));
+        Entrenador entrenador1 = new Entrenador("Carlos", "Masculino", LocalDate.of(1980, 3, 10));
+        Entrenador entrenador2 = new Entrenador("Ana", "Femenino", LocalDate.of(1985, 6, 20));
 
-        Partido partido = new Partido(local, visitante);
+        Equipo equipo1 = new Equipo("Tigres", "Juvenil", "Masculino", entrenador1);
+        Equipo equipo2 = new Equipo("Leones", "Juvenil", "Masculino", entrenador2);
 
-        partido.registrarResultado(3, 2);
+        Partido partido = new Partido(equipo1, equipo2);
+        partido.registrarResultado(2, 1);
 
-        assertEquals(3, partido.getGolesEquipo1());
-        assertEquals(2, partido.getGolesEquipo2());
+        assertEquals(2, partido.getGolesEquipo1());
+        assertEquals(1, partido.getGolesEquipo2());
     }
 
     @Test
